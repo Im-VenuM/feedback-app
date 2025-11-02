@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feedback-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feedback-backend
+  template:
+    metadata:
+      labels:
+        app: feedback-backend
+    spec:
+      containers:
+        - name: backend
+          image: your_dockerhub_username/feedback-backend:latest
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feedback-backend
+spec:
+  selector:
+    app: feedback-backend
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
